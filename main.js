@@ -1,8 +1,11 @@
 let { select, prompt, format } = require('ariex-cli-wrapper')
-let config = require('./config.json')
-let fs = require('fs')
+let fs = require('fs-extra')
 let path = require('path')
 let childProcess = require('child_process')
+
+if(!fs.existsSync('config.json')) fs.copyFileSync('default_config.json', 'config.json')
+let config = require('./config.json')
+fs.ensureDirSync(config.path)
 
 let selector = {}
 

@@ -1,3 +1,24 @@
 {
-  "path": "C:\\Users\\Public\\Documents\\Projects"
+  "path": "C:\\Users\\Public\\Documents\\Projects",
+  "projects": {
+    "NodeJs": [
+      "mkdir $DIR",
+      { "cmd": "echo //TODO>main.js", "cwd": "project" },
+      { "cmd": "npm init -y", "cwd": "project" },
+      "code $DIR"
+    ],
+    "Vue": [
+      "vue create $NAME",
+      "code $DIR"
+    ],
+    "Vue+Electron": [
+      "vue create $NAME",
+      { "cmd": "vue add electron-builder", "cwd": "project" },
+      "code $DIR"
+    ],
+    "Flutter": [
+      "flutter create $NAME",
+      "code $DIR"
+    ]
+  }
 }

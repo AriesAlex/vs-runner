@@ -9,31 +9,27 @@ fs.ensureDirSync(config.path)
 
 let selector = {}
 
-selector[format.green('Новый проект..')] = async () => {
-  let name = (await prompt('Название'))['Название']
+selector[format.green('New project..')] = async () => {
+  let name = (await prompt('Project name'))['Project name']
   let dir = path.resolve(config.path, name)
 
-  select({
-    NodeJS: () => {
-      fs.mkdirSync(dir)
-      childProcess.execSync('echo //TODO>main.js', {cwd: dir, stdio: 'inherit'})
-      childProcess.execSync('npm init -y', {cwd: dir, stdio: 'inherit'})
-      childProcess.execSync('code ' + dir, {stdio: 'inherit'})
-    },
-    Vue: () => {
-      childProcess.execSync('vue create -p ArieX ' + name, {cwd: config.path, stdio: 'inherit'})
-      childProcess.execSync('code ' + dir, {stdio: 'inherit'})
-    },
-    'Vue+Electron': () => {
-      childProcess.execSync('vue create -p ArieX ' + name, {cwd: config.path, stdio: 'inherit'})
-      childProcess.execSync('vue add electron-builder', {cwd: dir, stdio: 'inherit'})
-      childProcess.execSync('code ' + dir)
-    },
-    Flutter: () => {
-      childProcess.execSync('flutter create ' + name, {cwd: config.path, stdio: 'inherit'})
-      childProcess.execSync('code ' + dir, {stdio: 'inherit'})
+  let presets = {}
+
+  let types = Object.keys(config.projects)
+  types.forEach(type => {
+    let preset = config.projects[type]
+
+    presets[type] = () => {
+      preset.forEach(step => {
+        let cmd = typeof step == 'string' ? step : step.cmd
+        cmd = cmd.replace(/\$DIR/g, dir)
+        cmd = cmd.replace(/\$NAME/g, name)
+        childProcess.execSync(cmd, {stdio: 'inherit', cwd: step.cwd == 'project' ? dir : config.path})
+      })
     }
   })
+
+  select(presets)
 }
 
 fs.readdirSync(config.path).forEach(file => {

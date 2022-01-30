@@ -16,6 +16,10 @@
       { "cmd": "vue add electron-builder", "cwd": "project" },
       "code $DIR"
     ],
+    "React Native": [
+      "npx create-react-native-app $NAME",
+      "code $DIR"
+    ],
     "React Native Expo": [
       "expo init $NAME",
       "code $DIR"

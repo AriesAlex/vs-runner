@@ -34,7 +34,7 @@ selector[format.green('New project..')] = async () => {
 
 fs.readdirSync(config.path).forEach(file => {
   selector[file] = () => {
-    childProcess.execSync('code ' + path.resolve(config.path, file), {stdio: 'inherit'})
+    childProcess.exec('code ' + path.resolve(config.path, file))
   }
 })
 

@@ -24,6 +24,10 @@
       "expo init $NAME",
       "code $DIR"
     ],
+    "PHP Laravel": [
+      "laravel new $NAME",
+      "code $DIR"
+    ],
     "Flutter": [
       "flutter create $NAME",
       "code $DIR"

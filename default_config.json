@@ -28,6 +28,10 @@
       "expo init $NAME",
       "code $DIR"
     ],
+    "AdoniaJS": [
+      "npm init adonis-ts-app@latest $NAME",
+      "code $DIR"
+    ],
     "PHP Laravel": [
       "laravel new $NAME",
       "code $DIR"

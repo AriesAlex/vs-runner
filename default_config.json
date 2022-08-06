@@ -16,6 +16,10 @@
       { "cmd": "vue add electron-builder", "cwd": "project" },
       "code $DIR"
     ],
+    "Svelte": [
+      "npm create svelte@latest $NAME",
+      "code $DIR"
+    ],
     "React": [
       "npx create-react-app $NAME",
       "code $DIR"

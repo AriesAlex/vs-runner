@@ -18,6 +18,7 @@
     ],
     "Svelte": [
       "npm create svelte@latest $NAME",
+      { "cmd": "npm i", "cwd": "project" },
       "code $DIR"
     ],
     "React": [

@@ -37,6 +37,10 @@
       "expo init $NAME",
       "code $DIR"
     ],
+    "React Native Module": [
+      "npx create-react-native-module $NAME",
+      "code $DIR"
+    ],
     "AdoniaJS": [
       "npm init adonis-ts-app@latest $NAME",
       "code $DIR"

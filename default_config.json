@@ -39,7 +39,7 @@
     ],
     "React Native Module": [
       "npx create-react-native-module $NAME",
-      "code $DIR"
+      "code react-native-$DIR"
     ],
     "AdoniaJS": [
       "npm init adonis-ts-app@latest $NAME",

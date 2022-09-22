@@ -1,41 +1,45 @@
 {
-  "path": "C:\\Users\\Public\\Documents\\Projects",
-  "projects": {
+  "path": "$HOMEDIR/Documents/Projects",
+  "projectsPerPage": 5,
+  "templates": {
+    "_OPEN_PROJECT": [
+      "code $PROJECT_PATH"
+    ],
     "NodeJs": [
-      "mkdir $DIR",
+      "mkdir $PROJECT_PATH",
       { "cmd": "echo //TODO>main.js", "cwd": "project" },
       { "cmd": "npm init -y", "cwd": "project" },
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "Vue": [
       "vue create $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "Vue+Electron": [
       "vue create $NAME",
       { "cmd": "vue add electron-builder", "cwd": "project" },
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "Electron": [
       "npx create-electron-app $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "Svelte": [
       "npm create svelte@latest $NAME",
       { "cmd": "npm i", "cwd": "project" },
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "React": [
       "npx create-react-app $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "React Native": [
       "npx create-react-native-app $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "React Native Expo": [
       "expo init $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "React Native Module": [
       "npx create-react-native-module $NAME",
@@ -43,15 +47,19 @@
     ],
     "AdoniaJS": [
       "npm init adonis-ts-app@latest $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "PHP Laravel": [
       "laravel new $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
     ],
     "Flutter": [
       "flutter create $NAME",
-      "code $DIR"
+      "code $PROJECT_PATH"
+    ],
+    "Tauri": [
+      "npm create tauri-app $NAME",
+      "code $PROJECT_PATH"
     ]
   }
 }

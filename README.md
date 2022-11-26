@@ -26,7 +26,7 @@ Now you should make `vs.bat` available in environment variables. For that you ca
 
 ## Config
 
-You already have default config. If there's no config.json vs-runner will create new config based on it
+You already have default config. If there's no `config.json` vs-runner will create new config based on it
 
 ### path
 

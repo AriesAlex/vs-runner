@@ -36,18 +36,23 @@ class VSRunner {
       await this.renderNewProject()
     }
 
-    menu[`-> (${this.currentPage + 1}/${this.projectsPages.length})`] = () => {
-      this.currentPage++
-      this.renderPage(1)
-    }
-    menu[`<- (${this.currentPage + 1}/${this.projectsPages.length})`] = () => {
-      this.currentPage--
-      this.renderPage(2)
+    if (this.projectsPages.length > 1) {
+      menu[`-> (${this.currentPage + 1}/${this.projectsPages.length})`] =
+        () => {
+          this.currentPage++
+          this.renderPage(1)
+        }
+      menu[`<- (${this.currentPage + 1}/${this.projectsPages.length})`] =
+        () => {
+          this.currentPage--
+          this.renderPage(2)
+        }
     }
 
-    for (const project of projects) {
-      menu[project] = () => this.openProject(project)
-    }
+    if (projects)
+      for (const project of projects) {
+        menu[project] = () => this.openProject(project)
+      }
 
     select(menu, { defaultValue })
   }

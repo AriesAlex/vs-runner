@@ -2,64 +2,28 @@
   "path": "$HOMEDIR/Documents/Projects",
   "projectsPerPage": 5,
   "templates": {
-    "_OPEN_PROJECT": [
-      "code $PROJECT_PATH"
-    ],
+    "_OPEN_PROJECT": "code $PROJECT_PATH",
     "NodeJs": [
       "mkdir $PROJECT_PATH",
       { "cmd": "echo //TODO>main.js", "cwd": "project" },
-      { "cmd": "npm init -y", "cwd": "project" },
-      "code $PROJECT_PATH"
+      { "cmd": "npm init -y", "cwd": "project" }
     ],
-    "Vue": [
-      "vue create $NAME",
-      "code $PROJECT_PATH"
-    ],
+    "Vue": "vue create $NAME",
     "Vue+Electron": [
       "vue create $NAME",
-      { "cmd": "vue add electron-builder", "cwd": "project" },
-      "code $PROJECT_PATH"
+      { "cmd": "vue add electron-builder", "cwd": "project" }
     ],
-    "Electron": [
-      "npx create-electron-app $NAME",
-      "code $PROJECT_PATH"
-    ],
+    "Electron": "npx create-electron-app $NAME",
     "Svelte": [
       "npm create svelte@latest $NAME",
-      { "cmd": "npm i", "cwd": "project" },
-      "code $PROJECT_PATH"
+      { "cmd": "npm i", "cwd": "project" }
     ],
-    "React": [
-      "npx create-react-app $NAME",
-      "code $PROJECT_PATH"
-    ],
-    "React Native": [
-      "npx create-react-native-app $NAME",
-      "code $PROJECT_PATH"
-    ],
-    "React Native Expo": [
-      "expo init $NAME",
-      "code $PROJECT_PATH"
-    ],
-    "React Native Module": [
-      "npx create-react-native-module $NAME",
-      "code react-native-$NAME"
-    ],
-    "AdoniaJS": [
-      "npm init adonis-ts-app@latest $NAME",
-      "code $PROJECT_PATH"
-    ],
-    "PHP Laravel": [
-      "laravel new $NAME",
-      "code $PROJECT_PATH"
-    ],
-    "Flutter": [
-      "flutter create $NAME",
-      "code $PROJECT_PATH"
-    ],
-    "Tauri": [
-      "npm create tauri-app $NAME",
-      "code $PROJECT_PATH"
-    ]
+    "React": "npx create-react-app $NAME",
+    "React Native": "npx create-react-native-app $NAME",
+    "React Native Expo": "expo init $NAME",
+    "AdoniaJS": "npm init adonis-ts-app@latest $NAME",
+    "PHP Laravel": "laravel new $NAME",
+    "Flutter": "flutter create $NAME",
+    "Tauri": "npm create tauri-app $NAME"
   }
 }

@@ -65,11 +65,12 @@ class VSRunner {
   }
 
   executeTemplate(template, name) {
-    const steps = this.config.templates[template]
+    let steps = this.config.templates[template]
     if (!steps)
       return console.error(
         format.red(`There\'s no "${template}" template in config`)
       )
+    if (!Array.isArray(steps)) steps = [steps]
 
     for (const step of steps) {
       const projectPath = path.resolve(this.config.path, name)
@@ -81,6 +82,7 @@ class VSRunner {
         cwd: step.cwd == 'project' ? projectPath : this.config.path,
       })
     }
+    if (template != '_OPEN_PROJECT') this.openProject(name)
   }
 
   loadProjects() {

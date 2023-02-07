@@ -13,6 +13,7 @@ class VSRunner {
   allProjects = []
   projectsPages = []
   _currentPage = 0
+  defaultRenderFunc = this.renderPage
 
   get currentPage() {
     return this._currentPage
@@ -25,13 +26,14 @@ class VSRunner {
     this.initConfig()
     this.processCliArg()
     this.loadProjects()
-    this.renderPage()
+    this.defaultRenderFunc()
   }
 
   renderPage(defaultValue = 0) {
     const menu = {}
     const projects = this.projectsPages[this.currentPage]
 
+    console.clear()
     menu[format.green('New project..')] = async () => {
       await this.renderNewProject()
     }
@@ -57,9 +59,19 @@ class VSRunner {
     select(menu, { defaultValue })
   }
 
-  async renderNewProject() {
-    const name = (await prompt('Project name'))['Project name']
+  async renderNewProject(defaultName) {
+    const name = defaultName || (await prompt('Project name'))['Project name']
     const menu = {}
+
+    if (this.isProjectExists(name)) {
+      console.clear()
+      console.log(`Project ${format.green(name)} already exists`)
+      select({
+        'Run it': () => this.openProject(name),
+        'Go back': () => this.renderPage(),
+      })
+      return
+    }
 
     for (const templateName of Object.keys(this.config.templates)) {
       if (templateName.startsWith('_')) continue
@@ -110,6 +122,11 @@ class VSRunner {
     fs.ensureDirSync(this.config.path)
   }
 
+  isProjectExists(projectName) {
+    const projectPath = path.resolve(this.config.path, projectName)
+    return fs.existsSync(projectPath)
+  }
+
   processCliArg() {
     const lastArg = process.argv.splice(-1)[0]
 
@@ -118,8 +135,12 @@ class VSRunner {
     }
 
     if (!lastArg.includes('/') && !lastArg.includes('\\')) {
-      this.openProject(lastArg)
-      process.exit()
+      if (this.isProjectExists(lastArg)) {
+        this.openProject(lastArg)
+        process.exit()
+      } else {
+        this.defaultRenderFunc = () => this.renderNewProject(lastArg)
+      }
     }
   }
 

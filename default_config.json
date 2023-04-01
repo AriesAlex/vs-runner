@@ -13,6 +13,7 @@
       "vue create $NAME",
       { "cmd": "vue add electron-builder", "cwd": "project" }
     ],
+    "Nuxt": "npx nuxi init $NAME",
     "Electron": "npx create-electron-app $NAME",
     "Svelte": [
       "npm create svelte@latest $NAME",

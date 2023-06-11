@@ -95,7 +95,7 @@ class VSRunner {
       cmd = cmd.replace(/\$PROJECT_PATH/g, projectPath)
       cmd = cmd.replace(/\$NAME/g, name)
       childProcess.execSync(cmd, {
-        stdio: 'inherit',
+        stdio: template != '_OPEN_PROJECT' ? 'inherit' : undefined,
         cwd: step.cwd == 'project' ? projectPath : this.config.path,
       })
     }

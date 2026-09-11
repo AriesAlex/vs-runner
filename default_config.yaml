@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=./vs-runner.schema.json
+
+path: ~/Documents/Projects
+open: code $PROJECT_PATH
+
+templates:
+  Bun + TypeScript: bun init --yes $NAME
+
+  Vite + TypeScript:
+    - bun create vite $NAME --template vanilla-ts --no-interactive
+    - cwd: project
+      run: bun install
+
+  Vue + TypeScript:
+    - bun create vite $NAME --template vue-ts --no-interactive
+    - cwd: project
+      run: bun install
+
+  React + TypeScript:
+    - bun create vite $NAME --template react-ts --no-interactive
+    - cwd: project
+      run: bun install
+
+  SvelteKit + TypeScript: bunx sv create $NAME --template minimal --types ts --no-add-ons --install bun
+  Nuxt 4: bun create nuxt@latest $NAME --packageManager bun
+  NestJS: bunx @nestjs/cli@latest new $NAME --package-manager bun --strict --skip-git --skip-tests --no-observe
+  Electron Forge + Vite + TypeScript: bunx create-electron-app@latest $NAME --template=vite-typescript --skip-git
+  Expo: bun create expo $NAME --yes
+
+  Tauri + Vue + TypeScript:
+    - bunx create-tauri-app@latest $NAME --manager bun --template vue-ts --yes
+    - cwd: project
+      run: bun install
+
+  AdonisJS: bunx create-adonisjs@latest $NAME --pkg=bun
+  Laravel: laravel new $NAME
+  Flutter: flutter create $NAME

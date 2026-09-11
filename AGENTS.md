@@ -1,0 +1,27 @@
+# vs-runner
+
+This is a Windows-oriented project launcher built with Bun and strict TypeScript. `src/main.ts` owns the CLI, config loading, project discovery, template execution, and Git cloning. `default_config.yaml` is the tracked default; the ignored `config.yaml` is each user's source of truth, and `vs-runner.schema.json` documents its contract for editors.
+
+## Contracts
+
+- Keep the YAML format human-first: `open` is a root command, and a template is one Bun Shell command or a sequence of string/group steps. A group has `run: string | string[]` and optional `cwd`; do not split commands into argv arrays.
+- Preserve `$NAME`, `$PROJECT_PATH`, and `$PROJECTS_PATH`; substitute them with Bun Shell escaping in commands and raw values in `cwd`. Expand a leading `~` in configured paths. Treat command text itself as trusted local configuration.
+- Keep runtime validation, `default_config.yaml`, `vs-runner.schema.json`, and README examples aligned whenever the config contract changes.
+- Use relevant Bun APIs directly (`Bun.file`, `Bun.write`, `Bun.YAML`, Bun Shell, `Bun.spawn`, `Bun.which`, and `Bun.argv`). Use `node:fs` directory APIs where Bun's own documentation recommends them. Do not reintroduce `fs-extra` or a child-process wrapper.
+- Change scaffold defaults only after checking the current official generator CLI. Prefer Bun and TypeScript; Vue starters use Vite.
+
+## Workflow and verification
+
+- Prefer the cleanest strong result in the context of the whole codebase. Minimality means no unnecessary code, state, abstraction, or wrong ownership layer—not the fewest changed lines.
+- Inspect the real implementation and config flow before changing behavior. Keep one source of truth for each contract and avoid speculative fallbacks or compatibility layers.
+- Run `bun install` after dependency changes and commit `bun.lock`; do not recreate `package-lock.json`.
+- Run `bun run check` after code or config changes. Smoke-check `bun src/main.ts --help` and `bun src/main.ts --version` when CLI parsing changes.
+- Preserve unrelated dirty work. Keep temporary files and generated research artifacts outside the repository.
+- After completing and verifying a user-requested change, commit its task-scoped diff and push the current branch to `origin` without waiting for a separate request. Skip this only when the user explicitly asks not to commit or push, or when delivery is blocked; never include unrelated work.
+- This GitHub repository is public. Never commit or push secrets, and never print secret values in logs, diffs, answers, issues, pull requests, or comments.
+
+Если пользователь в ходе работы даёт новые устойчивые правила по стилю кода, структуре или процессу, то их надо кратко и по делу сразу добавлять в этот файл `AGENTS.md`, если это реально полезно будущим агентам.
+
+Правила в `AGENTS.md` добавлять только если пользователь явно просит сохранить что-то универсальное и долговременное; не заносить туда ситуативные договорённости текущей задачи.
+
+«"Работает" недостаточно. После того как довел до рабочего состояния, убедись, что решение встроено в код красиво и без временных подпорок. Если по пути пришлось оставить костыль или фоллбэк, потом обязательно добейся его удаления, даже если для этого надо явно попросить пользователя сделать связанное изменение.»

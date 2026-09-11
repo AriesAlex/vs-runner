@@ -1,51 +1,76 @@
 # vs-runner
 
-## Configurable projects manager
-
-![](docs/showcase.gif)
-
-### Allows you to manage your projects and quickly create new ones based on customizable templates
+A fast, configurable project launcher for Windows, powered by Bun and TypeScript.
 
 ## Features
 
-- Customizable templates
-- Quick open via win+r. You also can pass project name as argument to instantly open it
-- Clone git repository by passing url as argument
-- Page pagination
+- polished interactive UI with project search;
+- open a project immediately with `vs project-name`;
+- clone HTTPS, SSH, or Git remotes with `vs https://…`;
+- compact YAML templates executed by the cross-platform Bun Shell;
+- current starters for Vite, Vue, React, SvelteKit, Nuxt, NestJS, Expo, Tauri, AdonisJS, Electron Forge, Laravel, and Flutter.
 
 ## Install
 
-1. Clone Repository
-2. With installed NodeJS execute `npm i`
+Requirements: [Bun](https://bun.com/) 1.4.2 or newer, Git, and the editor command configured in `config.yaml` (`code` by default). Individual templates may require their own SDK or CLI.
 
-### How to make it possible to open vs-runner via `Win+R`?
+```powershell
+git clone https://github.com/AriesAlex/vs-runner.git
+cd vs-runner
+bun install
+bun link
+```
 
-There's `vs.bat` file. You can type there directory of cloned vs-runner repository. By default it's `%userprofile%\Documents\Projects\vs-runner`
+`bun link` exposes both `vs` and `vs-runner`. Bun's global bin directory must be in `PATH`; the Bun installer normally configures it. You can then enter `vs` in `Win+R` or a terminal.
 
-Now you should make `vs.bat` available in environment variables. For that you can add vs-runner folder into `PATH` env.var. or just copy `vs.bat` to already added folder in PATH. For example `C:\Windows\vs.bat`
+The included `vs.bat` remains available for an existing Win+R setup. Copy it over an old wrapper only if `vs` is already resolved elsewhere in `PATH`; it now launches Bun and forwards every argument.
+
+For a one-off run without linking:
+
+```powershell
+bun start
+bun src/main.ts my-project
+```
 
 ## Config
 
-You already have default config. If there's no `config.json` vs-runner will create new config based on it
+The first run copies `default_config.yaml` to the ignored local `config.yaml`.
 
-### path
+```yaml
+# yaml-language-server: $schema=./vs-runner.schema.json
 
-Path to your projects directory. May have `$HOMEDIR` variable that points to your home directory
+path: ~/Documents/Projects
+open: code $PROJECT_PATH
 
-### projectsPerPage
+templates:
+  Vue + TypeScript:
+    - bun create vite $NAME --template vue-ts --no-interactive
+    - cwd: project
+      run: bun install
+```
 
-vs-runner splits projects into pages. You can choose how many to display projects on single page
+The leading `~` in a configured path expands to your home directory. Commands and `cwd` support `$NAME`, `$PROJECT_PATH`, and `$PROJECTS_PATH`; command substitutions are shell-escaped before execution.
 
-### templates
+A template is normally one command string. Use a YAML list for sequential steps. A grouped step can share its working directory across one or more commands:
 
-Check default config for examples. Object that have template names as keys and commands to create project as value
+```yaml
+templates:
+  Custom app:
+    - mkdir $PROJECT_PATH
+    - cwd: project
+      run:
+        - bun init --yes
+        - bun run prepare
+```
 
-For multiple commands you should pass them as array, but in case if it's only one you can pass only it without array
+`cwd: project` is shorthand for `$PROJECT_PATH`; any other relative `cwd` starts at `$PROJECTS_PATH`. Commands are trusted local configuration and may use Bun Shell features such as pipes, redirects, globs, and environment variables.
 
-There's should be template `_OPEN_PROJECT` that describes how to open project
+The schema directive in the default config enables structure validation, field descriptions, and completion in VS Code with a YAML extension. Available tokens are documented on command fields; completion inside an otherwise arbitrary shell string intentionally stays out of scope.
 
-Command can have variables `$PROJECT_PATH` that equals to new project path and `$NAME` that equals to project name
+## Development
 
-Command can be a string or object that contains `cmd` as command. That way you also have:
+```powershell
+bun run check
+```
 
-- `cwd`: directory where command will be executed. The only possible value is `project` that says that command will be executed in new project directory. Otherwise it will be executed in the projects directory
+This runs the strict TypeScript check and bundles the CLI with Bun.

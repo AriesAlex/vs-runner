@@ -1,6 +1,14 @@
 # vs-runner
 
-This is a Windows-oriented project launcher built with Bun and strict TypeScript. `src/main.ts` owns the CLI, config loading, project discovery, template execution, and Git cloning. `default_config.yaml` is the tracked default; the ignored `config.yaml` is each user's source of truth, and `vs-runner.schema.json` documents its contract for editors.
+This is a Windows-oriented project launcher built with Bun and strict TypeScript. `default_config.yaml` is the tracked default; the ignored `config.yaml` is each user's source of truth, and `vs-runner.schema.json` documents its contract for editors.
+
+## Source map and code style
+
+- Keep `src/main.ts` as the small CLI composition root. Configuration parsing belongs in `src/config.ts`, project discovery and Git operations in `src/projects.ts`, interactive flows in `src/prompts.ts`, and configured command execution in `src/template-runner.ts`.
+- Let files and functions reflect stable responsibilities a person would look for in an IDE. Use descriptive domain names; do not use one-letter aliases, vague generic names, meaningless renames, or a new function that only hides one obvious line.
+- Make code readable from top to bottom. Separate logical phases with blank lines and use comments only when they explain a non-obvious constraint or decision.
+- Validate external configuration at its boundary, then trust the resulting types internally. Avoid speculative fallbacks, optional chaining, runtime checks, and compatibility branches that are not justified by real behavior.
+- Run Biome instead of hand-formatting or layering separate formatter and linter configurations. Its naming rule enforces descriptive identifier length.
 
 ## Contracts
 
@@ -15,7 +23,7 @@ This is a Windows-oriented project launcher built with Bun and strict TypeScript
 - Prefer the cleanest strong result in the context of the whole codebase. Minimality means no unnecessary code, state, abstraction, or wrong ownership layer—not the fewest changed lines.
 - Inspect the real implementation and config flow before changing behavior. Keep one source of truth for each contract and avoid speculative fallbacks or compatibility layers.
 - Run `bun install` after dependency changes and commit `bun.lock`; do not recreate `package-lock.json`.
-- Run `bun run check` after code or config changes. Smoke-check `bun src/main.ts --help` and `bun src/main.ts --version` when CLI parsing changes.
+- Run `bun run format` after editing supported files, then `bun run check` after code or config changes. `check` runs Biome, strict TypeScript, and the Bun build. Smoke-check `bun src/main.ts --help` and `bun src/main.ts --version` when CLI parsing changes.
 - Preserve unrelated dirty work. Keep temporary files and generated research artifacts outside the repository.
 - After completing and verifying a user-requested change, commit its task-scoped diff and push the current branch to `origin` without waiting for a separate request. Skip this only when the user explicitly asks not to commit or push, or when delivery is blocked; never include unrelated work.
 - This GitHub repository is public. Never commit or push secrets, and never print secret values in logs, diffs, answers, issues, pull requests, or comments.

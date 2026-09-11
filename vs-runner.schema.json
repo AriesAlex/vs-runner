@@ -29,10 +29,7 @@
       "type": "string",
       "minLength": 1,
       "description": "A trusted Bun Shell command. Available tokens: `$NAME`, `$PROJECT_PATH`, and `$PROJECTS_PATH`.",
-      "examples": [
-        "bun create vite $NAME --template vue-ts",
-        "code $PROJECT_PATH"
-      ]
+      "examples": ["bun create vite $NAME --template vue-ts", "code $PROJECT_PATH"]
     },
     "template": {
       "oneOf": [

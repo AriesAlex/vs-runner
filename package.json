@@ -9,9 +9,11 @@
   },
   "scripts": {
     "start": "bun src/main.ts",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
     "typecheck": "tsc --noEmit",
     "build": "bun build src/main.ts --target bun --outdir dist",
-    "check": "bun run typecheck && bun run build"
+    "check": "biome check . && bun run typecheck && bun run build"
   },
   "author": "ArieX",
   "license": "ISC",
@@ -28,6 +30,7 @@
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.13",
     "@types/bun": "^1.4.2",
     "typescript": "^7.0.2"
   }

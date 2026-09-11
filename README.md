@@ -70,7 +70,8 @@ The schema directive in the default config enables structure validation, field d
 ## Development
 
 ```powershell
+bun run format
 bun run check
 ```
 
-This runs the strict TypeScript check and bundles the CLI with Bun.
+`format` applies the repository's Biome style. `check` runs Biome, the strict TypeScript check, and the Bun build.

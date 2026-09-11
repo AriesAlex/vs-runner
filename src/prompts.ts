@@ -1,6 +1,8 @@
 import { resolve } from 'node:path'
+
 import * as prompts from '@clack/prompts'
 import colors from 'picocolors'
+
 import type { Config } from './config.ts'
 import { isProjectDirectory, listProjects, projectNameIssue } from './projects.ts'
 import { openProject, runTemplate } from './template-runner.ts'
@@ -57,7 +59,7 @@ export async function createProject(config: Config, suppliedName?: string): Prom
   const templateNames = Object.keys(config.templates)
   const templateName = await prompts.select({
     message: 'Project template',
-    options: templateNames.map(name => ({ value: name, label: name })),
+    options: templateNames.map(availableTemplate => ({ value: availableTemplate, label: availableTemplate })),
   })
 
   if (wasCancelled(templateName)) return false

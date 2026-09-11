@@ -28,7 +28,7 @@ The included `vs.bat` remains available for an existing Win+R setup. Copy it ove
 For a one-off run without linking:
 
 ```powershell
-bun start
+bun run dev
 bun src/main.ts my-project
 ```
 
@@ -71,7 +71,15 @@ The schema directive in the default config enables structure validation, field d
 
 ```powershell
 bun run format
+bun run lint
+bun run typecheck
 bun run check
+bun run fix
 ```
 
-`format` applies the repository's Biome style. `check` runs Biome, the strict TypeScript check, and the Bun build.
+Oxfmt and Oxlint are local development dependencies invoked through Bun scripts. `check` verifies formatting, runs
+Oxlint with TypeScript 7 type information, and performs the strict TypeScript check. `fix` applies safe lint fixes and
+then formats the supported files.
+
+The CLI runs directly from TypeScript during development and installation. It is not bundled as part of routine
+verification; add a Bun build or standalone executable only when a release artifact has a real consumer.

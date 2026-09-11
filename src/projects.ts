@@ -18,7 +18,7 @@ export async function isProjectDirectory(path: string): Promise<boolean> {
   try {
     return (await stat(path)).isDirectory()
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return false
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') return false
 
     throw error
   }
@@ -30,7 +30,7 @@ export async function listProjects(projectsPath: string): Promise<string[]> {
   return entries
     .filter(entry => entry.isDirectory() || entry.isSymbolicLink())
     .map(entry => entry.name)
-    .sort(projectNameCollator.compare)
+    .toSorted((leftName, rightName) => projectNameCollator.compare(leftName, rightName))
 }
 
 export function isGitSource(value: string): boolean {

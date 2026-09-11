@@ -1,5 +1,7 @@
 import { resolve } from 'node:path'
+
 import { $ as shell } from 'bun'
+
 import type { Config } from './config.ts'
 import { expandHome } from './config.ts'
 

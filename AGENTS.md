@@ -8,7 +8,13 @@ This is a Windows-oriented project launcher built with Bun and strict TypeScript
 - Let files and functions reflect stable responsibilities a person would look for in an IDE. Use descriptive domain names; do not use one-letter aliases, vague generic names, meaningless renames, or a new function that only hides one obvious line.
 - Make code readable from top to bottom. Separate logical phases with blank lines and use comments only when they explain a non-obvious constraint or decision.
 - Validate external configuration at its boundary, then trust the resulting types internally. Avoid speculative fallbacks, optional chaining, runtime checks, and compatibility branches that are not justified by real behavior.
-- Run Biome instead of hand-formatting or layering separate formatter and linter configurations. Its naming rule enforces descriptive identifier length.
+- Use the local Oxc toolchain: Oxfmt owns formatting and import ordering; Oxlint owns linting, including TypeScript 7 type-aware rules through `oxlint-tsgolint`. Do not add Biome, ESLint, Prettier, `typescript-eslint`, or a parallel TypeScript 6 compatibility layer.
+
+## Bun-first toolchain
+
+- Bun 1.4 is this project's runtime, package manager, script runner, and direct TypeScript execution path. Run the CLI source directly during development; do not bundle it merely as a syntax or verification pass.
+- Do not add Vite, Vite+, or another bundler to vs-runner itself without a concrete requirement Bun cannot satisfy. This does not restrict configured templates that intentionally scaffold projects using Vite or other frameworks.
+- Add `bun build` or `bun build --compile` only for an actual release or deployment artifact. Decide the target, output, and compatibility requirements from that consumer rather than keeping an unused build pipeline.
 
 ## Contracts
 
@@ -23,7 +29,7 @@ This is a Windows-oriented project launcher built with Bun and strict TypeScript
 - Prefer the cleanest strong result in the context of the whole codebase. Minimality means no unnecessary code, state, abstraction, or wrong ownership layer—not the fewest changed lines.
 - Inspect the real implementation and config flow before changing behavior. Keep one source of truth for each contract and avoid speculative fallbacks or compatibility layers.
 - Run `bun install` after dependency changes and commit `bun.lock`; do not recreate `package-lock.json`.
-- Run `bun run format` after editing supported files, then `bun run check` after code or config changes. `check` runs Biome, strict TypeScript, and the Bun build. Smoke-check `bun src/main.ts --help` and `bun src/main.ts --version` when CLI parsing changes.
+- Use `bun run format` for formatting, `bun run lint` for type-aware linting, `bun run typecheck` for the strict TypeScript 7 compiler, and `bun run fix` for safe automated fixes. Run `bun run check` after code or config changes. Smoke-check `bun src/main.ts --help` and `bun src/main.ts --version` when CLI parsing changes.
 - Preserve unrelated dirty work. Keep temporary files and generated research artifacts outside the repository.
 - After completing and verifying a user-requested change, commit its task-scoped diff and push the current branch to `origin` without waiting for a separate request. Skip this only when the user explicitly asks not to commit or push, or when delivery is blocked; never include unrelated work.
 - This GitHub repository is public. Never commit or push secrets, and never print secret values in logs, diffs, answers, issues, pull requests, or comments.

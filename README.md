@@ -23,8 +23,6 @@ bun link
 
 `bun link` exposes both `vs` and `vs-runner`. Bun's global bin directory must be in `PATH`; the Bun installer normally configures it. You can then enter `vs` in `Win+R` or a terminal.
 
-The included `vs.bat` remains available for an existing Win+R setup. Copy it over an old wrapper only if `vs` is already resolved elsewhere in `PATH`; it now launches Bun and forwards every argument.
-
 For a one-off run without linking:
 
 ```powershell
